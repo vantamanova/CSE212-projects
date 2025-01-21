@@ -11,7 +11,7 @@ public class Translator
         Console.WriteLine(englishToGerman.Translate("Train")); // ???
     }
 
-    private Dictionary<string, string> _words = new();
+    public Dictionary<string, string> _words = new();
 
     /// <summary>
     /// Add the translation from 'from_word' to 'to_word'
@@ -25,6 +25,12 @@ public class Translator
     public void AddWord(string fromWord, string toWord)
     {
         // ADD YOUR CODE HERE
+        var word = new Word();
+        word.fromWord = fromWord;
+        word.toWord = toWord;
+
+        _words.Add(word.fromWord, word.toWord);
+
     }
 
     /// <summary>
@@ -35,6 +41,23 @@ public class Translator
     public string Translate(string fromWord)
     {
         // ADD YOUR CODE HERE
-        return "";
+        var word = "";
+
+        if (_words.ContainsKey(fromWord))
+        {
+            word = _words[fromWord];
+        }
+        else
+        {
+            word = "???";
+        }
+
+        return word;
     }
+}
+
+public class Word
+{
+    public string fromWord { get; set; }
+    public string toWord { get; set; }
 }
