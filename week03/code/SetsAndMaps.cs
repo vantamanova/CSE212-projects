@@ -22,7 +22,22 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+
+        var result = new List<string>();
+        var wordSet = new HashSet<string>(words);
+
+        foreach (string word in words.ToList())
+        {
+            string reversed = new string(word.Reverse().ToArray());
+            if (wordSet.Contains(reversed) && (reversed != word))
+            {
+                result.Add($"{word} & {reversed}");
+                wordSet.Remove(reversed);
+                wordSet.Remove(word);
+            }
+        }
+
+        return result.ToArray();
     }
 
     /// <summary>
@@ -43,6 +58,18 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            var degreeType = fields[3];
+            var numberStudents = 1;
+
+            if (degrees.ContainsKey(degreeType))
+            {
+                degrees[degreeType] += numberStudents;
+            }
+            else
+            {
+                degrees.Add(degreeType, numberStudents);
+            }
+
         }
 
         return degrees;
@@ -67,7 +94,51 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+
+        // Make sure the programm ignores spaces and cases
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+
+        // Checking if the words have the same length
+        if (word1.Length != word2.Length)
+        {
+            return false;
+        }
+
+        // Create dictionary to keep track of letters for both words
+        var letters = new Dictionary<char, int>();
+
+        // Add all letters from the 1st word to the dictionary
+        foreach (char letter in word1)
+        {
+            if (letters.ContainsKey(letter))
+            {
+                letters[letter]++;
+            }
+            else
+            {
+                letters[letter] = 1;
+            }
+        }
+
+        // Add and substract letters from the dictionary based of 2nd word
+        foreach (char letter in word2)
+        {
+            if (!letters.ContainsKey(letter))
+            {
+                return false;
+            }
+
+            letters[letter]--;
+
+            if (letters[letter] == 0)
+            {
+                letters.Remove(letter);
+            }
+        }
+
+        return letters.Count == 0;
+
     }
 
     /// <summary>
