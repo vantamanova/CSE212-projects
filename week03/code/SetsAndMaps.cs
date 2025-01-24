@@ -130,14 +130,18 @@ public static class SetsAndMaps
             }
 
             letters[letter]--;
+        }
 
-            if (letters[letter] == 0)
+        // Check if all counts are zero
+        foreach (var count in letters.Values)
+        {
+            if (count != 0)
             {
-                letters.Remove(letter);
+                return false;
             }
         }
 
-        return letters.Count == 0;
+        return true; // All counts are zero; the words are anagrams
 
     }
 
