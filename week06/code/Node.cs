@@ -1,3 +1,5 @@
+using Microsoft.VisualStudio.TestPlatform.Utilities;
+
 public class Node
 {
     public int Data { get; set; }
@@ -21,7 +23,7 @@ public class Node
             else
                 Left.Insert(value);
         }
-        else
+        if (value > Data)
         {
             // Insert to the right
             if (Right is null)
@@ -34,12 +36,33 @@ public class Node
     public bool Contains(int value)
     {
         // TODO Start Problem 2
-        return false;
+
+        if (value == Data)
+        {
+            return true;
+        }
+        if (value < Data && Left != null)
+        {
+            // CHeck left
+            return Left.Contains(value);
+        }
+        if (value > Data && Right != null)
+        {
+            // CHeck right
+            return Right.Contains(value);
+
+        }
+        else return false;
     }
 
     public int GetHeight()
     {
         // TODO Start Problem 4
-        return 0; // Replace this line with the correct return statement(s)
+        if (Left == null && Right == null) return 1;
+
+        int leftHeight = Left != null ? Left.GetHeight() : 0;
+        int rightHeight = Right != null ? Right.GetHeight() : 0;
+
+        return 1 + Math.Max(leftHeight, rightHeight);
     }
 }
